@@ -1,6 +1,7 @@
 local core = require('openmw.core')
 local types = require('openmw.types')
 local vfs = require('openmw.vfs')
+local world = require('openmw.world')
 
 local basePath = "Sound/Vo/AIV"
 local curActor = nil
@@ -74,12 +75,13 @@ return {
         onInfoGetText = function(actor, infoId)
             curActor = actor
 
-            print("onInfoGetText: " .. infoId)
+            print("onInfoGetText: ")
+			local player = world.players[1]
             local npc = types.NPC.record(actor)
             local sex = getActorSex(npc.isMale)
             local factions = types.NPC.getFactions(actor)
             local factionId = factions and factions[1]
-            local factionRank = factionId and types.NPC.getFactionRank(actor, factionId)
+            local factionRank = factionId and types.NPC.getFactionRank(player, factionId)
 
             local path = getVoicePath(npc.race, sex, infoId, npc.id, factionId, factionRank)
 
