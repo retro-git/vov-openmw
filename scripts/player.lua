@@ -82,7 +82,6 @@ return {
             local factionId = factions and factions[1]
             local factionRank = factionId and types.NPC.getFactionRank(self, factionId)
 
-
             if (factionRank == 0)
             then
                 factionRank = nil
