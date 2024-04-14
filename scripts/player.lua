@@ -82,9 +82,15 @@ return {
             local factionId = factions and factions[1]
             local factionRank = factionId and types.NPC.getFactionRank(self, factionId)
 
-            local path = getVoicePath(npc.race, sex, infoId, npc.id, factionId, factionRank)
 
-            print(path)
+            if (factionRank == 0)
+            then
+                factionRank = nil
+            else 
+                factionRank = factionRank - 1
+            end
+
+            local path = getVoicePath(npc.race, sex, infoId, npc.id, factionId, factionRank)
 
             if (isPathValid(path)) then
                 print(actor:sendEvent("NewDialogueLine", {path = path}))
