@@ -73,28 +73,44 @@ end
 return {
     engineHandlers = {
         onInfoGetText = function(actor, infoId)
-            curActor = actor
+			print("onInfoGetText: ")
+			if types.NPC.objectIsInstance(actor) == false and types.Creature.objectIsInstance(actor) == false then return end
 
-            print("onInfoGetText: ")
-            local npc = types.NPC.record(actor)
-            local sex = getActorSex(npc.isMale)
-            local factions = types.NPC.getFactions(actor)
-            local factionId = factions and factions[1]
-            local factionRank = factionId and types.NPC.getFactionRank(self, factionId)
+			curActor = actor
 
-            if (factionRank == 0 or factionRank == nil)
-            then
-                factionRank = nil
-            else 
-                factionRank = factionRank - 1
-            end
+			local actorId = nil
+			local race = nil
+			local sex = nil
+			local factionId = nil
+			local factionRank = nil
 
-            local path = getVoicePath(npc.race, sex, infoId, npc.id, factionId, factionRank)
+			if types.NPC.objectIsInstance(actor) then
+				local npc = types.NPC.record(actor)
+				actorId = npc.id
+				race = npc.race
+				sex = getActorSex(npc.isMale)
+				local factions = types.NPC.getFactions(actor)
+				factionId = factions and factions[1]
+				factionRank = factionId and types.NPC.getFactionRank(self, factionId)
+
+				if (factionRank == 0 or factionRank == nil)
+				then
+					factionRank = nil
+				else 
+					factionRank = factionRank - 1
+				end
+			elseif types.Creature.objectIsInstance(actor) then
+				local creature = types.Creature.record(actor)
+				actorId = creature.id
+			end
+
+            local path = getVoicePath(race, sex, infoId, actorId, factionId, factionRank)
 
             if (isPathValid(path)) then
                 print(actor:sendEvent("NewDialogueLine", {path = path}))
             else
                 print("Voice file not found: " .. path)
+				actor:sendEvent("ExitDialogue")
             end
         end,
     },

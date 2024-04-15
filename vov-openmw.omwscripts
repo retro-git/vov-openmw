@@ -1,2 +1,2 @@
 PLAYER: scripts/player.lua
-NPC: scripts/npc.lua
+NPC, CREATURE: scripts/npc.lua
