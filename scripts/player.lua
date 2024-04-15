@@ -82,7 +82,7 @@ return {
             local factionId = factions and factions[1]
             local factionRank = factionId and types.NPC.getFactionRank(self, factionId)
 
-            if (factionRank == 0)
+            if (factionRank == 0 or factionRank == nil)
             then
                 factionRank = nil
             else 
@@ -101,7 +101,7 @@ return {
 
     eventHandlers = {
         UiModeChanged = function(data)
-            if data.oldMode == "Dialogue" then
+            if data.oldMode == "Dialogue" and curActor ~= nil then
                 print(curActor:sendEvent("ExitDialogue"))
             end
         end,
