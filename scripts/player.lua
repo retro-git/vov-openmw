@@ -118,7 +118,7 @@ return {
     eventHandlers = {
         UiModeChanged = function(data)
             if data.oldMode == "Dialogue" and curActor ~= nil then
-                print(curActor:sendEvent("ExitDialogue"))
+                curActor:sendEvent("ExitDialogue")
             end
         end,
     }
