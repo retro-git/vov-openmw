@@ -73,7 +73,6 @@ end
 return {
     engineHandlers = {
         onInfoGetText = function(actor, infoId)
-			print("onInfoGetText: ")
 			if types.NPC.objectIsInstance(actor) == false and types.Creature.objectIsInstance(actor) == false then return end
 
 			curActor = actor
@@ -107,9 +106,10 @@ return {
             local path = getVoicePath(race, sex, infoId, actorId, factionId, factionRank)
 
             if (isPathValid(path)) then
-                print(actor:sendEvent("NewDialogueLine", {path = path}))
+                actor:sendEvent("NewDialogueLine", {path = path})
+				print("Voice file: " .. path)
             else
-                print("Voice file not found: " .. path)
+                print("Voice file not found: " .. infoId .. ".mp3")
 				actor:sendEvent("ExitDialogue")
             end
         end,
